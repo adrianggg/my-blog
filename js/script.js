@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const titleClickHandler = function(event){
   event.preventDefault();
   const clickedElement = this;
@@ -38,7 +38,7 @@ const titleClickHandler = function(event){
   /* [DONE] add class 'active' to the correct article */
     
   showArticle.classList.add('active');
-}
+};
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles';
@@ -78,3 +78,43 @@ const links = document.querySelectorAll('.titles a');
 for(let link of links){
   link.addEventListener('click', titleClickHandler);
 }
+
+function generateTags(){
+  const optArticleSelector = '.post',
+    optTitleSelector = '.post-title',
+    optTitleListSelector = '.titles',
+    optArticleTagsSelector = '.post-tags .list';
+  /* find all articles */
+  const articleHandle = document.querySelectorAll(optArticleSelector);
+  console.log(articleHandle);
+  /* START LOOP: for every article: */
+  articleHandle.forEach(article=>{
+
+    /* find tags wrapper */
+    const tagsWrapper = article.querySelector(optArticleTagsSelector);
+    console.log(tagsWrapper);
+    /* make html variable with empty string */
+    let html = '';
+    /* get tags from data-tags attribute */
+    const tags = article.getAttribute('data-tags');
+    console.log(tags);
+    /* split tags into array */
+    const tagsArray = tags.split(' ');
+    console.log(tagsArray);
+    /* START LOOP: for each tag */
+    tagsArray.forEach(tags=>{
+      /* generate HTML of the link */
+      const htmlLink = `<a href="#tag-${tags}">${tags}</a> `;
+      /* add generated code to html variable */
+      html += htmlLink;
+      /* END LOOP: for each tag */
+    });
+        
+    /* insert HTML of all the links into the tags wrapper */
+    tagsWrapper.innerHTML = html;
+    /* END LOOP: for every article: */
+  });
+}
+
+generateTags();
+
