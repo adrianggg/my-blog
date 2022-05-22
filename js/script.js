@@ -159,12 +159,13 @@ function generateTags(){
   /* [NEW] create variable for all links HTML code */
   let allTagsHTML = '';
   const tagsParams = calculateTagsParams(allTags);
+  console.log(allTags);
   console.log('tagsParams:', tagsParams);
   /* [NEW] START LOOP: for each tag in allTags: */
   for(let tag in allTags){
     /* [NEW] generate code of a link and add it to allTagsHTML */
-    const tagLinkHTML = '<li>'+ tag+ '</li>';
-    console.log('tagLinkHTML:', tagLinkHTML);
+    const tagLinkHTML = '<li>'+ tag + allTags[tag] + '</li>';
+    // console.log('tagLinkHTML:', tagLinkHTML);
     allTagsHTML += tagLinkHTML;
   }
   /* [NEW] END LOOP: for each tag in allTags: */
