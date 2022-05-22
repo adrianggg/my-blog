@@ -44,8 +44,9 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optArticleAuthorSelector = '.post-author',
-  optTagsListSelector = '.tags.list',
-  optCloudClassCount = 5,
+  optTagsListSelector = '.list.tags',
+  optAuthorsListSelector = '.list.authors',
+  optCloudClassCount = 6,
   optCloudClassPrefix = 'tag-size-';
 
 function generateTitleLinks(customSelector = ''){
@@ -171,7 +172,7 @@ function generateTags(){
   for(let tag in allTags){
     /* [NEW] generate code of a link and add it to allTagsHTML */
     // const tagLinkHTML = `<li class="" >${tag} (${allTags[tag]})</li>`;
-    const tagLinkHTML = `<li><a class="${calculateTagClass(allTags[tag], tagsParams)}" href="#tag-${tag}">${tag} (${allTags[tag]})</a> </li>`;
+    const tagLinkHTML = `<li><a class="tag-size ${calculateTagClass(allTags[tag], tagsParams)}" href="#tag-${tag}">${tag}</a> </li>`;
     console.log('tagLinkHTML:', tagLinkHTML);
     allTagsHTML += tagLinkHTML;
   }
@@ -246,6 +247,7 @@ function generateAuthors(){
   // find all articles
   const articles = document.querySelectorAll(optArticleSelector);
   // start loop
+  let htmlLinks =[];
   articles.forEach(article=>{
     // get wrapper to const
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
@@ -253,8 +255,16 @@ function generateAuthors(){
     const author = article.getAttribute('data-author');
     // console.log(author);
     // insert  author to wrapper
-    authorWrapper.innerHTML = `by <a href="#author-${author}">${author}</a>`;
+    const authorLink = `<a href="#author-${author}">${author}</a>`;
+    authorWrapper.innerHTML ='by ' + authorLink;
     // end loop
+    if(htmlLinks.indexOf(authorLink) == -1){
+      htmlLinks.push(authorLink);
+    }
+  });
+  const authorLinksList = document.querySelector(optAuthorsListSelector);
+  htmlLinks.forEach(link=>{
+    authorLinksList.innerHTML +=link;
   });
 }
 generateAuthors();
@@ -286,4 +296,3 @@ function addClickListenersToAuthors(){
 
 }
 addClickListenersToAuthors();
-
