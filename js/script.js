@@ -1,4 +1,15 @@
 'use strict';
+const templates = {
+  articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML)
+  // tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+  // authorLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML)
+};
+const tagHandlebar = {
+  tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML)
+};
+const authorHandlebar = {
+  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML)
+};
 const titleClickHandler = function(event){
   event.preventDefault();
   const clickedElement = this;
@@ -68,8 +79,8 @@ function generateTitleLinks(customSelector = ''){
     const articleTitle = article.querySelector(optTitleSelector).innerHTML;
         
     /* create HTML of the link */
-    const linkHTML = `<li><a href="#${articleId}"><span>${articleTitle}</span></a></li>`;
-            
+    const linkHTMLData = {id: articleId, title: articleTitle};
+    const linkHTML = templates.articleLink(linkHTMLData); 
     /* insert link into titleList */
     // titleList.insertAdjacentHTML("beforeend",linkHTML);
     html = html + linkHTML;
@@ -138,7 +149,9 @@ function generateTags(){
     tagsArray.forEach(tag=>{
 
       /* generate HTML of the link */
-      const htmlLink = `<li><a href="#tag-${tag}">${tag}</a></li> `;
+      // const htmlLink = `<li><a href="#tag-${tag}">${tag}</a></li> `;
+      const linkHTMLData = {id:tag, title: tag};
+      const htmlLink = tagHandlebar.tagLink(linkHTMLData); 
 
       /* add generated code to html variable */
       html += htmlLink;
@@ -255,7 +268,10 @@ function generateAuthors(){
     const author = article.getAttribute('data-author');
     // console.log(author);
     // insert  author to wrapper
-    const authorLink = `<a href="#author-${author}">${author}</a>`;
+    // const authorLink = `<a href="#author-${author}">${author}</a>`;
+    const linkHTMLData = {id:author, title: author};
+    const authorLink = authorHandlebar.authorLink(linkHTMLData); 
+
     authorWrapper.innerHTML ='by ' + authorLink;
     // end loop
     if(htmlLinks.indexOf(authorLink) == -1){
